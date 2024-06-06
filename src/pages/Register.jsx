@@ -9,11 +9,18 @@ export default function Register() {
   const [error, setError] = useState("");
   const isLoggedIn = useAtomValue(isAuthAtom);
   if (isLoggedIn) {
-   return (<Navigate to='/profile' />)
+    return <Navigate to="/profile" />;
   }
 
-  const handleValidation = ()=>{
-
+  // TODO: validation des mot de passe avant envoi serveur
+  function checkPasswords() {
+    const password = document.querySelector("input[name=password]");
+    const confirm = document.querySelector("input[name=password_confirmation]");
+    if (confirm.value === password.value) {
+      confirm.setCustomValidity("");
+    } else {
+      confirm.setCustomValidity("Passwords do not match");
+    }
   }
 
   const handleSubmit = async (event) => {
@@ -49,7 +56,7 @@ export default function Register() {
           createCookie(cookieData);
           redirectTo("/profile");
         } else {
-          setError(`Erreur ${data.status }: ${data.message}`);
+          setError(`Erreur ${data.status}: ${data.message}`);
         }
       }
     } catch (error) {
@@ -68,13 +75,15 @@ export default function Register() {
         </div>
         <div className="form-group">
           <label>Mot de passe</label>
-          <input type="password" required name="password" />
+          <input type="password" required name="password" onChange={checkPasswords}/>
         </div>
         <div className="form-group">
           <label>Mot de passe</label>
-          <input type="password" required name="password_confirmation" />
+          <input type="password" required name="password_confirmation" onChange={checkPasswords} />
         </div>
-        <button type="submit" onClick={handleValidation}>Se connecter</button>
+        <button type="submit">
+          Se connecter
+        </button>
       </form>
     </section>
   );

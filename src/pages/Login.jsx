@@ -4,6 +4,7 @@ import { createCookie } from "../app/helpers";
 import { useAtomValue } from "jotai";
 import { isAuthAtom } from "../app/atoms";
 import { Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Login() {
   const [error, setError] = useState("");
@@ -70,6 +71,7 @@ export default function Login() {
         </div>
         <button type="submit">Se connecter</button>
       </form>
+      <Link to='/forgot_password'>Mot de passe oublié</Link>
     </section>
   );
 }
