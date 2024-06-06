@@ -29,14 +29,15 @@ export default function Login() {
     try {
       const response = await fetch(url, options);
       if (response) {
-        const {data, status} = await response.json();
+        const { data, status } = await response.json();
+        console.log(data);
         if (status.code == 200) {
           const cookieData = {
             token: data.token,
             email: data.user.email,
             id: data.user.id,
           };
-          createCookie(cookieData);
+          createCookie(cookieData, userData.remember_me)
           redirectTo("/profile");
         } else {
           setError(`Erreur ${status.code}: ${status.message}`);

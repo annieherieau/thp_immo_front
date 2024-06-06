@@ -50,7 +50,7 @@ export default function Register() {
             email: data.user.email,
             id: data.user.id,
           };
-          createCookie(cookieData);
+          createCookie(cookieData, userData.remember_me)
           redirectTo("/profile");
         } else {
           setError(`Erreur ${status.code.status}: ${status.message}`);

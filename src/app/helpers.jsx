@@ -18,9 +18,9 @@ export function PrivateRoute({ children }) {
 // ****** COOKIES ******* //
 export const cookie_name = import.meta.env.VITE_COOKIE_NAME;
 
-export function createCookie(userData) {
+export function createCookie(userData, remember=false) {
   Cookies.set(cookie_name, JSON.stringify(userData), {
-    expires: 30,
+    expires: remember ? 30 : 1/48,
   });
 }
 
@@ -30,7 +30,7 @@ export function loadCookie() {
 
 export function updateCookie(email) {
   const data = { ...loadCookie(), email };
-  Cookies.set(cookie_name, JSON.stringify(data), { expires: 30 });
+  Cookies.set(cookie_name, JSON.stringify(data));
 }
 
 export function removeCookie() {
