@@ -2,7 +2,7 @@ import { useAtomValue } from "jotai";
 import { isAuthAtom } from "../app/atoms";
 import { useState } from "react";
 import { buildRequestOptions } from "../app/api";
-import { createCookie } from "../app/helpers";
+import { createCookie, redirectTo } from "../app/helpers";
 import { Navigate } from "react-router-dom";
 
 export default function Register() {
@@ -42,12 +42,9 @@ export default function Register() {
     // Executer la requête
     try {
       const response = await fetch(url, options);
-      if (response) {
-        const data = await response.json();
-        console.log(data);
-        console.log(data.status);
-        console.log(data.message);
-        if (data.status == 200) {
+      if (response){
+        const {data, status} = await response.json();
+        if (status.code == 200) {
           const cookieData = {
             token: data.token,
             email: data.user.email,
@@ -56,11 +53,11 @@ export default function Register() {
           createCookie(cookieData);
           redirectTo("/profile");
         } else {
-          setError(`Erreur ${data.status}: ${data.message}`);
+          setError(`Erreur ${status.code.status}: ${status.message}`);
         }
       }
     } catch (error) {
-      setError(error.message);
+      console.log(error.message);
     }
   };
 
@@ -70,16 +67,16 @@ export default function Register() {
       {error && <p>{error}</p>}
       <form className="login-form" onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>Identifiant</label>
-          <input type="email" required name="email" />
+          <label htmlFor="email">Email</label>
+          <input type="email" required name="email" id="email" autoComplete="email"/>
         </div>
         <div className="form-group">
-          <label>Mot de passe</label>
-          <input type="password" required name="password" onChange={checkPasswords}/>
+          <label htmlFor="password">Mot de passe</label>
+          <input type="password" required name="password" id="password"  onChange={checkPasswords}/>
         </div>
         <div className="form-group">
-          <label>Mot de passe</label>
-          <input type="password" required name="password_confirmation" onChange={checkPasswords} />
+          <label  htmlFor="password_confirmation" >Confirmer le Mot de passe</label>
+          <input type="password" required name="password_confirmation" id="password_confirmation" onChange={checkPasswords} />
         </div>
         <button type="submit">
           Se connecter

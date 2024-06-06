@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { buildRequestOptions } from "../app/api";
-import { createCookie } from "../app/helpers";
+import { createCookie, getFormData, redirectTo } from "../app/helpers";
 import { useAtomValue } from "jotai";
 import { isAuthAtom } from "../app/atoms";
 import { Navigate } from "react-router-dom";
@@ -10,7 +10,7 @@ export default function Login() {
   const [error, setError] = useState("");
   const isLoggedIn = useAtomValue(isAuthAtom);
   if (isLoggedIn) {
-   return (<Navigate to='/profile' />)
+    return <Navigate to="/profile" />;
   }
 
   // soumission formulaire + requete singin
@@ -18,12 +18,7 @@ export default function Login() {
     event.preventDefault();
     setError("");
 
-    // récupérer les données du formulaire
-    let form_data = new FormData(event.target);
-    let userData = {};
-    for (const [key, value] of form_data.entries()) {
-      userData[key] = value;
-    }
+    const userData = getFormData(event.target);
 
     // créer la requête
     const { url, options } = buildRequestOptions("signin", {
@@ -34,11 +29,8 @@ export default function Login() {
     try {
       const response = await fetch(url, options);
       if (response) {
-        const data = await response.json();
-        console.log(data);
-        console.log(data.status);
-        console.log(data.message);
-        if (data.status == 200) {
+        const {data, status} = await response.json();
+        if (status.code == 200) {
           const cookieData = {
             token: data.token,
             email: data.user.email,
@@ -47,7 +39,7 @@ export default function Login() {
           createCookie(cookieData);
           redirectTo("/profile");
         } else {
-          setError(`Erreur ${data.status }: ${data.message}`);
+          setError(`Erreur ${status.code}: ${status.message}`);
         }
       }
     } catch (error) {
@@ -58,20 +50,25 @@ export default function Login() {
 
   return (
     <section>
-        <h1>Connexion</h1>
+      <h1>Connexion</h1>
       {error && <p>{error}</p>}
       <form className="login-form" onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>Identifiant</label>
+          <label htmlFor="email">Email</label>
           <input type="email" required name="email" />
         </div>
         <div className="form-group">
-          <label>Mot de passe</label>
+          <label htmlFor="password">Mot de passe</label>
           <input type="password" required name="password" />
+        </div>
+        <div className="form-group">
+          <input type="checkbox" name="remember_me" />
+          <label htmlFor="remember_me">Se souvenir de moi</label>
         </div>
         <button type="submit">Se connecter</button>
       </form>
-      <Link to='/forgot_password'>Mot de passe oublié</Link>
+      <Link to="/register">Créer un compte</Link>
+      <Link to="/forgot_password">Mot de passe oublié</Link>
     </section>
   );
 }

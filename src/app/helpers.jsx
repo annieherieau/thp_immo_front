@@ -36,3 +36,13 @@ export function updateCookie(email) {
 export function removeCookie() {
   Cookies.remove(cookie_name);
 }
+
+// ***** FORMS *****/
+// récupérer les données du formulaire
+export function getFormData(form){
+   const data = {};
+   for (const [key, value] of new FormData(form).entries()) {
+     data[key] = value;
+   }
+   return data;
+}
