@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { buildRequestOptions } from "../app/api";
-import { createCookie, redirectTo } from "../app/helpers";
-import { redirect } from "react-router-dom";
+import { createCookie } from "../app/helpers";
 import { useAtomValue } from "jotai";
 import { isAuthAtom } from "../app/atoms";
 import { Navigate } from "react-router-dom";
@@ -13,7 +12,8 @@ export default function Login() {
    return (<Navigate to='/profile' />)
   }
 
-  const handleLogin = async (event) => {
+  // soumission formulaire + requete singin
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setError("");
 
@@ -23,7 +23,6 @@ export default function Login() {
     for (const [key, value] of form_data.entries()) {
       userData[key] = value;
     }
-    // console.log(userData);
 
     // créer la requête
     const { url, options } = buildRequestOptions("signin", {
@@ -45,21 +44,22 @@ export default function Login() {
             id: data.user.id,
           };
           createCookie(cookieData);
-          // redirectTo("/profile");
+          redirectTo("/profile");
         } else {
-          setError(data.status + " " + data.message);
+          setError(`Erreur ${data.status }: ${data.message}`);
         }
       }
     } catch (error) {
-      setError("Invalide Email or Password");
+      setError("Invalid Email or Password");
       console.log(error.message);
     }
   };
 
   return (
     <section>
+        <h1>Connexion</h1>
       {error && <p>{error}</p>}
-      <form className="login-form" onSubmit={handleLogin}>
+      <form className="login-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Identifiant</label>
           <input type="email" required name="email" />
