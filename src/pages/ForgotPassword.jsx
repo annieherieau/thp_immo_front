@@ -2,6 +2,8 @@ import { useAtomValue } from "jotai";
 import { useState } from "react";
 import { isAuthAtom } from "../app/atoms";
 import { Navigate } from "react-router-dom";
+import { getFormData } from "../app/utils";
+import { buildRequestOptions } from "../app/api";
 
 export default function ForgotPassword() {
   const [error, setError] = useState("");
@@ -11,8 +13,29 @@ export default function ForgotPassword() {
   }
 
   // soumission formulaire + requete singin
-  const handleSubmit =()=>{
-    
+  const handleSubmit = async (event)=>{
+    event.preventDefault();
+    setError("");
+
+    const userData = getFormData(event.target);
+    // créer la requête
+    const { url, options } = buildRequestOptions("update_password", {
+      body: { user: userData },
+    });
+
+     // Executer la requête
+     try {
+      const response = await fetch(url, options);
+      if (response) {
+        const { data, status } = await response.json();
+        console.log(data);
+        } else {
+          setError(`Erreur ${status.code}: ${status.message}`);
+        }
+      } catch (error) {
+        setError("Invalid Email or Password");
+        console.log(error.message);
+      }
   } 
 
   return (
@@ -22,9 +45,9 @@ export default function ForgotPassword() {
       <form className="login-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="email">Email</label>
-          <input type="email" required name="email" />
+          <input type="email" required id="email" name="email" autoComplete="email" />
         </div>
-        <button type="submit">Enovoyer</button>
+        <button type="submit">Envoyer</button>
       </form>
     </section>
   );
