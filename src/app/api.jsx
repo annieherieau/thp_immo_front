@@ -20,13 +20,13 @@ const endpoints = {
     method: "DELETE",
     url: api_url + "/users/sign_out",
   }
-  ,new_password:{
-    method: "GET",
-    url: api_url + "/users/password/new",
-  }
-  ,update_password:{
+  ,reset_password:{
     method: "POST",
     url: api_url + "/users/password",
+  }
+  ,update_password:{
+    // method: "POST",
+    // url: api_url + "/users/password",
   }
 }
 

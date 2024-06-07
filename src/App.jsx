@@ -17,8 +17,8 @@ import { useEffect } from "react";
 import {loadCookie } from "./app/utils";
 import { noUser, userAtom } from "./app/atoms";
 import NotFound from "./pages/NotFound";
-import ForgotPassword from "./pages/ForgotPassword";
 import PrivateRoute from "./components/PrivateRoute";
+import Password from "./pages/Password";
 
 export default function App() {
   const [, setUser] = useAtom(userAtom);
@@ -34,7 +34,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/forgot_password" element={<ForgotPassword />} />
+          <Route path="/password/:action" element={<Password />} />
           <Route
             path="/profile"
             element={

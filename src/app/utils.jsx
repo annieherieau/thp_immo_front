@@ -37,3 +37,14 @@ export function getFormData(form){
    }
    return data;
 }
+
+// validation confirmation de password
+export function checkPasswords() {
+  const password = document.querySelector("input[name=password]");
+  const confirm = document.querySelector("input[name=password_confirmation]");
+  if (confirm.value === password.value) {
+    confirm.setCustomValidity("");
+  } else {
+    confirm.setCustomValidity("Passwords do not match");
+  }
+}

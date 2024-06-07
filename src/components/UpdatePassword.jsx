@@ -5,23 +5,8 @@ import { buildRequestOptions } from "../app/api";
 import { checkPasswords, createCookie, redirectTo } from "../app/utils";
 import { Navigate } from "react-router-dom";
 
-export default function Register() {
+export default function UpdatePassword() {
   const [error, setError] = useState("");
-  const isLoggedIn = useAtomValue(isAuthAtom);
-  if (isLoggedIn) {
-    return <Navigate to="/profile" />;
-  }
-
-  // TODO: validation des mot de passe avant envoi serveur
-  // function checkPasswords() {
-  //   const password = document.querySelector("input[name=password]");
-  //   const confirm = document.querySelector("input[name=password_confirmation]");
-  //   if (confirm.value === password.value) {
-  //     confirm.setCustomValidity("");
-  //   } else {
-  //     confirm.setCustomValidity("Passwords do not match");
-  //   }
-  // }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -35,7 +20,7 @@ export default function Register() {
     }
 
     // créer la requête
-    const { url, options } = buildRequestOptions("signup", {
+    const { url, options } = buildRequestOptions("update_password", {
       body: { user: userData },
     });
 
@@ -63,21 +48,11 @@ export default function Register() {
 
   return (
     <section>
-      <h1>Créer un compte</h1>
+      <h1>Changez votre mot de passe</h1>
       {error && <p>{error}</p>}
       <form className="login-form" onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            required
-            name="email"
-            id="email"
-            autoComplete="email"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Mot de passe</label>
+          <label htmlFor="password">Nouveau Mot de passe</label>
           <input
             type="password"
             required
@@ -98,11 +73,7 @@ export default function Register() {
             onChange={checkPasswords}
           />
         </div>
-        <div className="form-group">
-          <input type="checkbox" name="remember_me" />
-          <label htmlFor="remember_me">Se souvenir de moi</label>
-        </div>
-        <button type="submit">Se connecter</button>
+        <button type="submit">Enrgistrer</button>
       </form>
     </section>
   );
