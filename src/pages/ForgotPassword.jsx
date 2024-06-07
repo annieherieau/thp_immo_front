@@ -19,21 +19,23 @@ export default function ForgotPassword() {
 
     const userData = getFormData(event.target);
     // créer la requête
-    const { url, options } = buildRequestOptions("update_password", {
-      body: { user: userData },
+    const { url, options } = buildRequestOptions("reset_password", {
+      body: { email: userData.email }
     });
 
      // Executer la requête
      try {
       const response = await fetch(url, options);
-      if (response) {
-        const { data, status } = await response.json();
-        console.log(data);
-        } else {
-          setError(`Erreur ${status.code}: ${status.message}`);
+        if (response) {
+          const { data, status } = await response.json();
+          if (status.code == 200) {
+            console.log(status.message)
+          } else {
+            setError(`Erreur ${status.code}: ${status.message}`);
+          }
         }
       } catch (error) {
-        setError("Invalid Email or Password");
+        setError("Something gets wrong!");
         console.log(error.message);
       }
   } 
