@@ -14,10 +14,11 @@ import Profile from "./pages/Profile";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
-import { PrivateRoute, loadCookie } from "./app/helpers";
+import {loadCookie } from "./app/utils";
 import { noUser, userAtom } from "./app/atoms";
 import NotFound from "./pages/NotFound";
 import ForgotPassword from "./pages/ForgotPassword";
+import PrivateRoute from "./components/PrivateRoute";
 
 export default function App() {
   const [user, setUser] = useAtom(userAtom);

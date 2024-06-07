@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { buildRequestOptions } from "../app/api";
-import { createCookie, getFormData, redirectTo } from "../app/helpers";
+import { createCookie, getFormData, redirectTo } from "../app/utils";
 import { useAtomValue } from "jotai";
 import { isAuthAtom } from "../app/atoms";
 import { Navigate } from "react-router-dom";
@@ -37,7 +37,7 @@ export default function Login() {
             email: data.user.email,
             id: data.user.id,
           };
-          createCookie(cookieData, userData.remember_me)
+          createCookie(cookieData, userData.remember_me);
           redirectTo("/profile");
         } else {
           setError(`Erreur ${status.code}: ${status.message}`);
@@ -69,6 +69,7 @@ export default function Login() {
         <button type="submit">Se connecter</button>
       </form>
       <Link to="/register">Créer un compte</Link>
+      <br />
       <Link to="/forgot_password">Mot de passe oublié</Link>
     </section>
   );

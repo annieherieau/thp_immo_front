@@ -2,7 +2,7 @@ import { useAtomValue } from "jotai";
 import { isAuthAtom } from "../app/atoms";
 import { useState } from "react";
 import { buildRequestOptions } from "../app/api";
-import { createCookie, redirectTo } from "../app/helpers";
+import { createCookie, redirectTo } from "../app/utils";
 import { Navigate } from "react-router-dom";
 
 export default function Register() {
@@ -42,15 +42,15 @@ export default function Register() {
     // Executer la requête
     try {
       const response = await fetch(url, options);
-      if (response){
-        const {data, status} = await response.json();
+      if (response) {
+        const { data, status } = await response.json();
         if (status.code == 200) {
           const cookieData = {
             token: data.token,
             email: data.user.email,
             id: data.user.id,
           };
-          createCookie(cookieData, userData.remember_me)
+          createCookie(cookieData, userData.remember_me);
           redirectTo("/profile");
         } else {
           setError(`Erreur ${status.code.status}: ${status.message}`);
@@ -68,19 +68,41 @@ export default function Register() {
       <form className="login-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="email">Email</label>
-          <input type="email" required name="email" id="email" autoComplete="email"/>
+          <input
+            type="email"
+            required
+            name="email"
+            id="email"
+            autoComplete="email"
+          />
         </div>
         <div className="form-group">
           <label htmlFor="password">Mot de passe</label>
-          <input type="password" required name="password" id="password"  onChange={checkPasswords}/>
+          <input
+            type="password"
+            required
+            name="password"
+            id="password"
+            onChange={checkPasswords}
+          />
         </div>
         <div className="form-group">
-          <label  htmlFor="password_confirmation" >Confirmer le Mot de passe</label>
-          <input type="password" required name="password_confirmation" id="password_confirmation" onChange={checkPasswords} />
+          <label htmlFor="password_confirmation">
+            Confirmer le Mot de passe
+          </label>
+          <input
+            type="password"
+            required
+            name="password_confirmation"
+            id="password_confirmation"
+            onChange={checkPasswords}
+          />
         </div>
-        <button type="submit">
-          Se connecter
-        </button>
+        <div className="form-group">
+          <input type="checkbox" name="remember_me" />
+          <label htmlFor="remember_me">Se souvenir de moi</label>
+        </div>
+        <button type="submit">Se connecter</button>
       </form>
     </section>
   );

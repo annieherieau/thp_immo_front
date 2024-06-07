@@ -1,18 +1,9 @@
-import { useAtomValue } from "jotai";
-import { isAuthAtom} from "./atoms";
 import Cookies from "js-cookie";
-import { Navigate } from "react-router-dom";
 
 // ****** REDIRECTION ******* //
 export function redirectTo(location = "/") {
   const basename = import.meta.env.VITE_BASENAME;
   window.location.replace(`${basename}${location}`);
-}
-
-export function PrivateRoute({ children }) {
-  // verifie si User authentifié
-  const isAuthenticated = useAtomValue(isAuthAtom);
-  return isAuthenticated ? <>{children}</> : <Navigate to="/login" />;
 }
 
 // ****** COOKIES ******* //
