@@ -21,11 +21,11 @@ import ForgotPassword from "./pages/ForgotPassword";
 import PrivateRoute from "./components/PrivateRoute";
 
 export default function App() {
-  const [user, setUser] = useAtom(userAtom);
+  const [, setUser] = useAtom(userAtom);
 
   useEffect(() => {
       setUser(loadCookie() ? loadCookie() : noUser);  
-  }, []);
+  }, [setUser]);
   return (
     <BrowserRouter basename={basename}>
       <Header />
