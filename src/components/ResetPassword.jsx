@@ -1,16 +1,10 @@
 import { useAtomValue } from "jotai";
 import { useState } from "react";
-import { isAuthAtom } from "../app/atoms";
-import { Navigate } from "react-router-dom";
-import { getFormData } from "../app/utils";
+import { getFormData, redirectTo } from "../app/utils";
 import { buildRequestOptions } from "../app/api";
 
-export default function ForgotPassword() {
+export default function ResetPassword() {
   const [error, setError] = useState("");
-  const isLoggedIn = useAtomValue(isAuthAtom);
-  if (isLoggedIn) {
-    return <Navigate to="/profile" />;
-  }
 
   // soumission formulaire + requete singin
   const handleSubmit = async (event)=>{
@@ -20,7 +14,7 @@ export default function ForgotPassword() {
     const userData = getFormData(event.target);
     // créer la requête
     const { url, options } = buildRequestOptions("reset_password", {
-      body: { email: userData.email }
+      body: { email: userData.email}
     });
 
      // Executer la requête
@@ -29,7 +23,8 @@ export default function ForgotPassword() {
         if (response) {
           const { data, status } = await response.json();
           if (status.code == 200) {
-            console.log(status.message)
+            alert(status.message)
+            redirectTo()
           } else {
             setError(`Erreur ${status.code}: ${status.message}`);
           }

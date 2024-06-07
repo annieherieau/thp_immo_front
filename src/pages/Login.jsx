@@ -70,7 +70,7 @@ export default function Login() {
       </form>
       <Link to="/register">Créer un compte</Link>
       <br />
-      <Link to="/forgot_password">Mot de passe oublié</Link>
+      <Link to="/password/reset">Mot de passe oublié</Link>
     </section>
   );
 }

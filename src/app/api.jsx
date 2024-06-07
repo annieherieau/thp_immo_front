@@ -24,6 +24,10 @@ const endpoints = {
     method: "POST",
     url: api_url + "/users/password",
   }
+  ,update_password:{
+    // method: "POST",
+    // url: api_url + "/users/password",
+  }
 }
 
 // création de la requête: options et url
