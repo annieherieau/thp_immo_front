@@ -25,8 +25,8 @@ const endpoints = {
     url: api_url + "/users/password",
   }
   ,update_password:{
-    // method: "POST",
-    // url: api_url + "/users/password",
+    method: "PUT",
+    url: api_url + "/users/password",
   }
 }
 

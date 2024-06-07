@@ -11,7 +11,6 @@ export default function Password() {
     return <Navigate to="/profile" />;
   }
   const {action} = useParams()
-console.log(action);
   return(
     <>
     {action =='reset' && (<ResetPassword />)}

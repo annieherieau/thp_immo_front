@@ -1,13 +1,13 @@
-import { useAtomValue } from "jotai";
-import { isAuthAtom } from "../app/atoms";
+
 import { useState } from "react";
 import { buildRequestOptions } from "../app/api";
-import { checkPasswords, createCookie, redirectTo } from "../app/utils";
-import { Navigate } from "react-router-dom";
+import { checkPasswords } from "../app/utils";
+import { useSearchParams } from "react-router-dom";
 
 export default function UpdatePassword() {
   const [error, setError] = useState("");
-
+  const [searchParams, ] = useSearchParams();
+  const token = searchParams.get('reset_password_token');
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError("");
@@ -21,22 +21,16 @@ export default function UpdatePassword() {
 
     // créer la requête
     const { url, options } = buildRequestOptions("update_password", {
-      body: { user: userData },
+      body: { user: userData }, token: token
     });
-
+console.log(options);
     // Executer la requête
     try {
       const response = await fetch(url, options);
       if (response) {
         const { data, status } = await response.json();
         if (status.code == 200) {
-          const cookieData = {
-            token: data.token,
-            email: data.user.email,
-            id: data.user.id,
-          };
-          createCookie(cookieData, userData.remember_me);
-          redirectTo("/profile");
+          
         } else {
           setError(`Erreur ${status.code.status}: ${status.message}`);
         }
