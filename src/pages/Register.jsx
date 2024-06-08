@@ -35,7 +35,7 @@ export default function Register() {
     }
 
     // créer la requête
-    const { url, options } = buildRequestOptions("signup", {
+    const { url, options } = buildRequestOptions("users", "signup", {
       body: { user: userData },
     });
 

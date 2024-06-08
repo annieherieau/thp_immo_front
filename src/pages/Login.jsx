@@ -21,7 +21,7 @@ export default function Login() {
     const userData = getFormData(event.target);
 
     // créer la requête
-    const { url, options } = buildRequestOptions("signin", {
+    const { url, options } = buildRequestOptions("users", "signin", {
       body: { user: userData },
     });
 

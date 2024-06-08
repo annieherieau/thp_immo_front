@@ -20,7 +20,7 @@ export default function UpdatePassword() {
     }
 
     // créer la requête
-    const { url, options } = buildRequestOptions("update_password", {
+    const { url, options } = buildRequestOptions("users", "update_password", {
       body: { password: userData.password }, token: token
     });
 console.log(options);

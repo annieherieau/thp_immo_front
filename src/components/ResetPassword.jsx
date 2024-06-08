@@ -13,7 +13,7 @@ export default function ResetPassword() {
 
     const userData = getFormData(event.target);
     // créer la requête
-    const { url, options } = buildRequestOptions("reset_password", {
+    const { url, options } = buildRequestOptions("users", "reset_password", {
       body: { email: userData.email}
     });
 
