@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { buildRequestOptions } from "../app/api";
-import { checkPasswords } from "../app/utils";
+import { checkPasswords, redirectTo } from "../app/utils";
 import { useSearchParams } from "react-router-dom";
 
 export default function UpdatePassword() {
@@ -21,7 +21,7 @@ export default function UpdatePassword() {
 
     // créer la requête
     const { url, options } = buildRequestOptions("update_password", {
-      body: { user: userData }, token: token
+      body: { password: userData.password }, token: token
     });
 console.log(options);
     // Executer la requête
@@ -30,9 +30,10 @@ console.log(options);
       if (response) {
         const { data, status } = await response.json();
         if (status.code == 200) {
-          
+          alert(status.message)
+          redirectTo('/login')
         } else {
-          setError(`Erreur ${status.code.status}: ${status.message}`);
+          setError(`Erreur ${status.code}: ${status.message}`);
         }
       }
     } catch (error) {

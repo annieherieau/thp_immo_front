@@ -21,7 +21,7 @@ export default function ResetPassword() {
      try {
       const response = await fetch(url, options);
         if (response) {
-          const { data, status } = await response.json();
+          const { status } = await response.json();
           if (status.code == 200) {
             alert(status.message)
             redirectTo()
