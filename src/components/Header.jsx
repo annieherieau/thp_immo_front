@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { useAtomValue } from "jotai";
 import { isAuthAtom } from "../app/atoms";
-import { redirectTo, removeCookie } from "../app/helpers";
+import { redirectTo, removeCookie } from "../app/utils";
 import hamburgerIcon from '../assets/hamburgerIcon.svg'
 export default function Header() {
   const isLoggedIn = useAtomValue(isAuthAtom);

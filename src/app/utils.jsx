@@ -1,18 +1,9 @@
-import { useAtomValue } from "jotai";
-import { isAuthAtom} from "./atoms";
 import Cookies from "js-cookie";
-import { Navigate } from "react-router-dom";
 
 // ****** REDIRECTION ******* //
 export function redirectTo(location = "/") {
   const basename = import.meta.env.VITE_BASENAME;
   window.location.replace(`${basename}${location}`);
-}
-
-export function PrivateRoute({ children }) {
-  // verifie si User authentifié
-  const isAuthenticated = useAtomValue(isAuthAtom);
-  return isAuthenticated ? <>{children}</> : <Navigate to="/login" />;
 }
 
 // ****** COOKIES ******* //
@@ -45,4 +36,15 @@ export function getFormData(form){
      data[key] = value;
    }
    return data;
+}
+
+// validation confirmation de password
+export function checkPasswords() {
+  const password = document.querySelector("input[name=password]");
+  const confirm = document.querySelector("input[name=password_confirmation]");
+  if (confirm.value === password.value) {
+    confirm.setCustomValidity("");
+  } else {
+    confirm.setCustomValidity("Passwords do not match");
+  }
 }

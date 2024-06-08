@@ -20,6 +20,14 @@ const endpoints = {
     method: "DELETE",
     url: api_url + "/users/sign_out",
   }
+  ,reset_password:{
+    method: "POST",
+    url: api_url + "/users/password",
+  }
+  ,update_password:{
+    method: "PUT",
+    url: api_url + "/users/password",
+  }
 }
 
 // création de la requête: options et url

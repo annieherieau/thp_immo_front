@@ -14,17 +14,18 @@ import Profile from "./pages/Profile";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
-import { PrivateRoute, loadCookie } from "./app/helpers";
+import {loadCookie } from "./app/utils";
 import { noUser, userAtom } from "./app/atoms";
 import NotFound from "./pages/NotFound";
-import ForgotPassword from "./pages/ForgotPassword";
+import PrivateRoute from "./components/PrivateRoute";
+import Password from "./pages/Password";
 
 export default function App() {
-  const [user, setUser] = useAtom(userAtom);
+  const [, setUser] = useAtom(userAtom);
 
   useEffect(() => {
       setUser(loadCookie() ? loadCookie() : noUser);  
-  }, []);
+  }, [setUser]);
   return (
     <BrowserRouter basename={basename}>
       <Header />
@@ -33,7 +34,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/forgot_password" element={<ForgotPassword />} />
+          <Route path="/password/:action" element={<Password />} />
           <Route
             path="/profile"
             element={
