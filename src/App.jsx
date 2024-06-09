@@ -19,6 +19,7 @@ import { noUser, userAtom } from "./app/atoms";
 import NotFound from "./pages/NotFound";
 import PrivateRoute from "./components/PrivateRoute";
 import Password from "./pages/Password";
+import ListingPage from "./pages/ListingPage";
 
 export default function App() {
   const [, setUser] = useAtom(userAtom);
@@ -35,6 +36,7 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/password/:action" element={<Password />} />
+          <Route path="/listing/:id" element={<ListingPage />} />
           <Route
             path="/profile"
             element={

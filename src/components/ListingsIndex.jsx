@@ -1,17 +1,21 @@
-import { useState } from "react"
+import { useState, useEffect } from "react";
 import { buildRequestOptions } from "../app/api";
+import ListingCard from "./ListingCard";
 
-export default function ListingsIndex(){
-  const [listings, setListings] = useState({});
+export default function ListingsIndex() {
+  const [listings, setListings] = useState(undefined);
+  const { url, options } = buildRequestOptions("listings", "index");
 
-  const {url, options} = buildRequestOptions('listings', 'index' )
-  console.log(url);
-  console.log(options);
-  
+  useEffect(() => {
+    fetch(url, options)
+      .then((response) => response.json())
+      .then((response) => setListings(response))
+      .catch((err) => console.error(err));
+  }, [setListings]);
   return (
     <section>
       <h2>Liste des biens immobiliers</h2>
-
+      {listings && listings.map(listing => <ListingCard key={listing.id} listing={listing}/>)}
     </section>
-  )
+  );
 }
