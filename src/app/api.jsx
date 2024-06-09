@@ -57,8 +57,8 @@ const endpoints = {
 export function buildRequestOptions(ressource, endpoint, data= { id: null, body: null, token: useAtomValue(isAuthAtom).token}){
   const { id, body, token } = data;
   const { method, url } = endpoints[endpoint];
-  let requestUrl = ressource ? url.replace("{ressource}", ressource) : url;
-  requestUrl = id ? url.replace("{:id}", id) : requestUrl;
+  let requestUrl = url.replace("{ressource}", ressource);
+  requestUrl = id ? requestUrl.replace("{:id}", id) : requestUrl;
   
   const options = {
     method: method,
