@@ -9,6 +9,9 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
+import Password from "./pages/Password";
+import ListingPage from "./pages/ListingPage";
+import NotFound from "./pages/NotFound";
 
 // external
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -16,10 +19,8 @@ import { useAtom } from "jotai";
 import { useEffect } from "react";
 import {loadCookie } from "./app/utils";
 import { noUser, userAtom } from "./app/atoms";
-import NotFound from "./pages/NotFound";
 import PrivateRoute from "./components/PrivateRoute";
-import Password from "./pages/Password";
-import ListingPage from "./pages/ListingPage";
+
 
 export default function App() {
   const [, setUser] = useAtom(userAtom);
