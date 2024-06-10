@@ -36,6 +36,7 @@ export default function Header() {
           <>
             <li>
               <NavLink to="/profile">Mon profile</NavLink>
+              <NavLink to="/userinfos">Mes informations</NavLink>
             </li>
             <li>
               <button onClick={handleLogout}>Se déconnecter</button>
