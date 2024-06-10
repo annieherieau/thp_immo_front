@@ -6,9 +6,9 @@ import { useEffect } from "react";
 
 export default function Profile() {
   const { id, token } = useAtomValue(userAtom);
+  console.log(token);
   const [error, setError] = useState(undefined);
   const [user, setUser] = useState(undefined);
-
   const { url, options } = buildRequestOptions("users", "profile", {
     token: token,
   });
