@@ -15,7 +15,7 @@ const endpoints = {
   },
   profile: {
     method: "GET",
-    url: api_url + "/profile",
+    url: api_url + "/myprofile",
   },
   signout: {
     method: "DELETE",
