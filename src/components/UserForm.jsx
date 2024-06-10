@@ -47,7 +47,7 @@ export default function UserForm({ user }) {
           redirectTo("/user_settings");
         } else {
           console.log(response);
-          setError(`Erreur ${response.status}: ${responseData.errors}`);
+          setError(`Erreur ${response.status}: ${JSON.stringify(responseData.errors)}`);
         }
       }
     } catch (error) {
