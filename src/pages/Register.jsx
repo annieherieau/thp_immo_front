@@ -42,18 +42,21 @@ export default function Register() {
     // Executer la requête
     try {
       const response = await fetch(url, options);
+      
       if (response) {
-        const { data, status } = await response.json();
-        if (status.code == 200) {
+       
+        const responseData = await response.json();
+        if (response.status == 201) {
           const cookieData = {
-            token: data.token,
-            email: data.user.email,
-            id: data.user.id,
+            token: response.headers.get('authorization').split(' ')[1],
+            email: responseData.email,
+            id: responseData.id,
           };
           createCookie(cookieData, userData.remember_me);
           redirectTo("/profile");
         } else {
-          setError(`Erreur ${status.code.status}: ${status.message}`);
+          console.log(response);
+          setError(`Erreur ${response.status}: ${JSON.stringify(responseData.errors)}`);
         }
       }
     } catch (error) {
