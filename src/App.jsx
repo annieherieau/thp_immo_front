@@ -20,6 +20,7 @@ import { useEffect } from "react";
 import {loadCookie } from "./app/utils";
 import { noUser, userAtom } from "./app/atoms";
 import PrivateRoute from "./components/PrivateRoute";
+import UserInfos from "./pages/UserInfos";
 
 
 export default function App() {
@@ -45,7 +46,14 @@ export default function App() {
                 <Profile />
               </PrivateRoute>
             }
-          />
+          /><Route
+          path="/userinfos"
+          element={
+            <PrivateRoute>
+              <UserInfos />
+            </PrivateRoute>
+          }
+        />
           <Route path='*' element={<NotFound />} />
         </Routes>
       </main>
