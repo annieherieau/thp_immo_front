@@ -17,17 +17,16 @@ import NotFound from "./pages/NotFound";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
-import {loadCookie } from "./app/utils";
+import { loadCookie } from "./app/utils";
 import { noUser, userAtom } from "./app/atoms";
 import PrivateRoute from "./components/PrivateRoute";
-import UserInfos from "./pages/UserInfos";
-
+import UserSettings from "./pages/UserSettings";
 
 export default function App() {
   const [, setUser] = useAtom(userAtom);
 
   useEffect(() => {
-      setUser(loadCookie() ? loadCookie() : noUser);  
+    setUser(loadCookie() ? loadCookie() : noUser);
   }, [setUser]);
   return (
     <BrowserRouter basename={basename}>
@@ -46,15 +45,16 @@ export default function App() {
                 <Profile />
               </PrivateRoute>
             }
-          /><Route
-          path="/userinfos"
-          element={
-            <PrivateRoute>
-              <UserInfos />
-            </PrivateRoute>
-          }
-        />
-          <Route path='*' element={<NotFound />} />
+          />
+          <Route
+            path="/user_settings"
+            element={
+              <PrivateRoute>
+                <UserSettings />
+              </PrivateRoute>
+            }
+          />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
       <Footer />

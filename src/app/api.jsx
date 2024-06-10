@@ -29,6 +29,10 @@ const endpoints = {
     method: "PUT",
     url: api_url + "/{ressource}/password",
   },
+  update_user:{
+    method: "PUT",
+    url: api_url + "/{ressource}",
+  },
   // RESSOURCES
   index:{
     method: 'GET',

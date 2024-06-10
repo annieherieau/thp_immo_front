@@ -11,18 +11,6 @@ export default function Register() {
   if (isLoggedIn) {
     return <Navigate to="/profile" />;
   }
-
-  // TODO: validation des mot de passe avant envoi serveur
-  // function checkPasswords() {
-  //   const password = document.querySelector("input[name=password]");
-  //   const confirm = document.querySelector("input[name=password_confirmation]");
-  //   if (confirm.value === password.value) {
-  //     confirm.setCustomValidity("");
-  //   } else {
-  //     confirm.setCustomValidity("Passwords do not match");
-  //   }
-  // }
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError("");
@@ -55,7 +43,6 @@ export default function Register() {
           createCookie(cookieData, userData.remember_me);
           redirectTo("/profile");
         } else {
-          console.log(response);
           setError(`Erreur ${response.status}: ${JSON.stringify(responseData.errors)}`);
         }
       }
