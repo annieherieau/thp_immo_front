@@ -15,6 +15,12 @@ export default function ListingCard({ listing, preview = true }) {
       <p>{listing.price} €</p>
       <p>Ville: {cityName}</p>
       {isLoggedIn && userEmail && !preview && (<p>Contacter : <a href={`mailto:${userEmail}`} target="_blank">{userEmail}</a></p>)}
+      {listing.photo_url && (
+        <div>
+          <img src={listing.photo_url} alt={listing.title} style={{ maxWidth: '200px', height: 'auto' }} />
+        </div>
+      )}
+      {/* {listing.user_email && !preview && (<p>{listing.user_email}</p>)} */}
       <div>
         {preview && <Link to={`/listing/${listing.id}`}>Voir le listing</Link>}
       </div>
@@ -24,10 +30,12 @@ export default function ListingCard({ listing, preview = true }) {
 
 ListingCard.propTypes = {
   listing: PropTypes.shape({
-    title: PropTypes.string,
-    description: PropTypes.string,
-    price: PropTypes.number,
-    id: PropTypes.number,
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    id: PropTypes.number.isRequired,
+    photo_url: PropTypes.string,  // Added photo_url to PropTypes
   }).isRequired,
   preview: PropTypes.bool,
 };
+

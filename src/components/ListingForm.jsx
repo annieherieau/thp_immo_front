@@ -9,15 +9,22 @@ const ListingForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const listingData = getFormData(e.target);
-    console.log(listingData);
-
+  
+    const formData = new FormData(e.target);
+    formData.append("user_id", user.id);
+  
+    // Create a new FormData object to nest under "listing"
+    const nestedFormData = new FormData();
+    for (const [key, value] of formData.entries()) {
+      nestedFormData.append(`listing[${key}]`, value);
+    }
+  
     const { url, options } = buildRequestOptions("listings", "create", {
-      body: { listing : listingData},
+      body: nestedFormData,
       token: user.token,
+      isFormData: true,
     });
-
+  
     try {
       const response = await fetch(url, options);
       if (!response.ok) {
@@ -29,9 +36,10 @@ const ListingForm = () => {
       console.error('Error creating listing:', error);
     }
   };
+  
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} encType="multipart/form-data">
       <input
         type="text"
         placeholder="Title"
@@ -82,6 +90,12 @@ const ListingForm = () => {
         id = "city_id"
         name='city_id'
         required
+      />
+       <input
+        type="file"
+        id="photo"
+        name="photo"
+        accept="image/*"
       />
       <button type="submit">Create Listing</button>
     </form>

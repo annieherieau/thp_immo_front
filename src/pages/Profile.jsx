@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useAtomValue } from "jotai";
 import { userAtom } from "../app/atoms";
 import { buildRequestOptions } from "../app/api";
@@ -6,17 +6,17 @@ import ListingForm from '../components/ListingForm';
 
 export default function Profile() {
   const user = useAtomValue(userAtom);
-  const {token } = useAtomValue(userAtom)
+  const { token } = useAtomValue(userAtom);
   const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState(true);
-  console.log(token)
-  const { url, options } = buildRequestOptions(null, "my_listings", {token});
+
+  const requestOptions = useMemo(() => buildRequestOptions(null, "my_listings", { token }), [token]);
 
   useEffect(() => {
     const fetchAnnonces = async () => {
       setLoading(true);
       try {
-        const response = await fetch(url, options);
+        const response = await fetch(requestOptions.url, requestOptions.options);
         if (!response.ok) {
           throw new Error(`Request failed with status ${response.status}`);
         }
@@ -30,9 +30,7 @@ export default function Profile() {
     };
 
     fetchAnnonces();
-  }, [
-    setListings
-  ]);
+  }, [requestOptions]);
 
   return (
     <>
@@ -46,7 +44,10 @@ export default function Profile() {
       ) : (
         <ul>
           {listings.map(listing => (
-            <li key={listing.id}>{listing.title}</li>
+            <li key={listing.id}>
+              <h2>{listing.title}</h2>
+              {listing.photo_url && <img src={listing.photo_url} alt={listing.title} style={{ maxWidth: '200px', height: 'auto' }} />}
+            </li>
           ))}
         </ul>
       )}
