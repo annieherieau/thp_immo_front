@@ -14,7 +14,6 @@ export default function ListingsIndex() {
   }, [setListings]);
   return (
     <section>
-      <h2>Liste des biens immobiliers</h2>
       {listings && listings.map(listingData=> <ListingCard key={listingData.listing.id} listingData={listingData}/>)}
     </section>
   );
