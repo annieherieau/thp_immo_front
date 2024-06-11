@@ -9,9 +9,9 @@ export function redirectTo(location = "/") {
 // ****** COOKIES ******* //
 export const cookie_name = import.meta.env.VITE_COOKIE_NAME;
 
-export function createCookie(userData, remember=false) {
+export function createCookie(userData, remember = false) {
   Cookies.set(cookie_name, JSON.stringify(userData), {
-    expires: remember ? 30 : 1/48,
+    expires: remember ? 30 : 1 / 48,
   });
 }
 
@@ -30,18 +30,19 @@ export function removeCookie() {
 
 // ***** FORMS *****/
 // récupérer les données du formulaire
-export function getFormData(form){
-   const data = {};
-   for (const [key, value] of new FormData(form).entries()) {
-     data[key] = value;
-   }
-   return data;
+export function getFormData(form) {
+  const data = {};
+  for (const [key, value] of new FormData(form).entries()) {
+    data[key] = value;
+  }
+  return data;
 }
 
 // validation confirmation de password
-export function checkPasswords() {
-  const password = document.querySelector("input[name=password]");
-  const confirm = document.querySelector("input[name=password_confirmation]");
+export function checkPasswords(
+) {
+  const password = document.querySelector(`input[name=password]`);
+  const confirm = document.querySelector(`input[name=password_confirmation]`);
   if (confirm.value === password.value) {
     confirm.setCustomValidity("");
   } else {

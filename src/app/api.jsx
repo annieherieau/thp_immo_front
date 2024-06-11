@@ -15,7 +15,7 @@ const endpoints = {
   },
   profile: {
     method: "GET",
-    url: api_url + "/profile",
+    url: api_url + "/myprofile",
   },
   signout: {
     method: "DELETE",
@@ -28,6 +28,10 @@ const endpoints = {
   update_password:{
     method: "PUT",
     url: api_url + "/{ressource}/password",
+  },
+  update_user:{
+    method: "PUT",
+    url: api_url + "/{ressource}",
   },
   // RESSOURCES
   index:{
