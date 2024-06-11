@@ -17,7 +17,7 @@ export default function ListingPage(){
 
   return (
     <section>
-      {listing && <ListingCard listingData={listing} preview={false} />}
+      {listing && <ListingCard listing={listing} preview={false} />}
     </section>
   )
 }

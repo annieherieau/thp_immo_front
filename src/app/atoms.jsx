@@ -11,6 +11,7 @@ export const isAuthAtom = atom((get) =>
   get(userAtom).id && get(userAtom).token ? true : false
 );
 export const cityAtom = atom(0);
+export const listingsAtom = atom(undefined)
 export const themeAtom = atom({
   theme: "",
 });

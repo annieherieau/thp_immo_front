@@ -3,10 +3,11 @@ import { buildRequestOptions } from "../app/api";
 import ListingCard from "./ListingCard";
 import CityFilter from "./CityFilter";
 import { useAtom } from "jotai";
-import { cityAtom } from "../app/atoms";
+import { cityAtom, listingsAtom } from "../app/atoms";
 
 export default function ListingsIndex() {
-  const [listings, setListings] = useState(undefined);
+  const [listings, setListings] = useAtom(listingsAtom)
+  // const [listings, setListings] = useState(undefined);
   const [requestOptions, setRequestOptions ] =useState(buildRequestOptions("listings", "index"))
   const [city_id, setCity_id] = useAtom(cityAtom);
   
