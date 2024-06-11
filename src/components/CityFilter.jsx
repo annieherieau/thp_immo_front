@@ -5,14 +5,13 @@ import { useEffect } from "react";
 export default function CityFilter({onChange}) {
   const [cities, setCities] = useState(undefined);
   const { url, options } = buildRequestOptions("cities", "index");
-
   useEffect(() => {
     fetch(url, options)
       .then((response) => response.json())
       .then((response) => setCities(response))
       .catch((err) => console.error(err));
   }, [setCities]);
-  // console.log(cities);
+
   return (
     <div>
       <label htmlFor="cities_list">Selectionnez votre ville : </label>

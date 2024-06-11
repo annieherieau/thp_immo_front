@@ -12,7 +12,7 @@ export default function Header() {
   const isLoggedIn = useAtomValue(isAuthAtom);
 
   const [city_id, setCity_id] = useAtom(cityAtom);
-  const [requestOptions, setRequestOptions ] =useState(buildRequestOptions("listings", "index"))
+  const [requestOptions, setRequestOptions ] = useState(buildRequestOptions("listings", "index"))
   const [, setListings] = useAtom(listingsAtom)
   
   // déconnexion

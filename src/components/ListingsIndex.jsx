@@ -7,8 +7,8 @@ export default function ListingsIndex() {
 
   return (
     <section>
-      {listings && listings.length ==0 &&(<p>Aucune annonce pour cette ville</p>)}
-      {listings && listings.map(listing=> <ListingCard key={listing.id} listing={listing}/>)}
+      {listings && listings.length == 0 &&(<p>Aucune annonce pour cette ville</p>)}
+      {listings && listings.map(listing => <ListingCard key={listing.id} listing={listing}/>)}
     </section>
   );
 }
