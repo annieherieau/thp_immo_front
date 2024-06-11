@@ -1,13 +1,18 @@
 import { useAtomValue } from "jotai";
-import { userAtom } from "../app/atoms";
+import { isAuthAtom, userAtom } from "../app/atoms";
 import { useState } from "react";
 import { buildRequestOptions } from "../app/api";
 import { useEffect } from "react";
 import UserInfos from "../components/UserInfos";
 import UserForm from "../components/UserForm";
+import { redirectTo } from "../app/utils";
 
 export default function UserSettings() {
   const { id, token } = useAtomValue(userAtom);
+  const isAuthenticated = useAtomValue(isAuthAtom);
+  if (!isAuthenticated) {
+    redirectTo('/login')
+  }
 
   const [error, setError] = useState(undefined);
   const [user, setUser] = useState(undefined);
