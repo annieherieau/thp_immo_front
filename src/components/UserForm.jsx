@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { checkPasswords, redirectTo } from "../app/utils";
+import { checkPasswords} from "../app/utils";
 import { buildRequestOptions } from "../app/api";
 import { useAtomValue } from "jotai";
 import { userAtom } from "../app/atoms";
 
-export default function UserForm({ user }) {
+export default function UserForm({ user, onUpdate }) {
   const { id, token } = useAtomValue(userAtom);
   const [error, setError] = useState("");
   const [formValues, setFormValues] = useState({ ...user });
@@ -43,8 +43,7 @@ export default function UserForm({ user }) {
         const responseData = await response.json();
         if (response.status == 200) {
           const { data, status } = responseData;
-          alert(status.message);
-          redirectTo("/user_settings");
+          onUpdate();
         } else {
           console.log(response);
           setError(`Erreur ${response.status}: ${JSON.stringify(responseData.errors)}`);
