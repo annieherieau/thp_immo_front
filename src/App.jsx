@@ -38,19 +38,12 @@ export default function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/password/:action" element={<Password />} />
           <Route path="/listing/:id" element={<ListingPage />} />
+          <Route path="/user_settings" element={<UserSettings />} />
           <Route
             path="/profile"
             element={
               <PrivateRoute>
                 <Profile />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/user_settings"
-            element={
-              <PrivateRoute>
-                <UserSettings />
               </PrivateRoute>
             }
           />

@@ -28,8 +28,9 @@ export default function UserSettings() {
       .then((response) => response.json())
       .then((response) => handleResponse(response))
       .catch((err) => console.error(err));
-  }, [id]);
+  }, [id, setUser]);
   // useEffect(() => {}, [updateUser]);
+  console.log(user)
   if (user) {
     return (
       <section>

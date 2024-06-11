@@ -100,9 +100,10 @@ export default function UserForm({ user }) {
             id="current_password"
           />
         </div>
-
+        <br/>
+        <div><strong>Changer le mot de passe</strong>
+        <br />Laisser vide si vous ne souhaitez pas changer votre mot de passe</div>
         <div className="form-group">
-          <br/>
           <label htmlFor="password">Nouveau Mot de passe</label>
           <input
             type="password"
