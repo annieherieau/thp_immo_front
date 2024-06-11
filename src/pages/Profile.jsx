@@ -1,8 +1,55 @@
-import { useAtomValue } from "jotai"
-import { userAtom } from "../app/atoms"
+import { useState, useEffect } from 'react';
+import { useAtomValue } from "jotai";
+import { userAtom } from "../app/atoms";
+import { buildRequestOptions } from "../app/api";
+import ListingForm from '../components/ListingForm';
 
 export default function Profile() {
   const user = useAtomValue(userAtom);
+  const {token } = useAtomValue(userAtom)
+  const [listings, setListings] = useState([]);
+  const [loading, setLoading] = useState(true);
+  console.log(token)
+  const { url, options } = buildRequestOptions(null, "my_listings", {token});
 
-  return(<h1>Profile {user.email}</h1>)
+  useEffect(() => {
+    const fetchAnnonces = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(url, options);
+        if (!response.ok) {
+          throw new Error(`Request failed with status ${response.status}`);
+        }
+        const data = await response.json();
+        setListings(data);
+      } catch (error) {
+        console.error('Error fetching listings:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAnnonces();
+  }, [
+    setListings
+  ]);
+
+  return (
+    <>
+      <h1>Profile {user.email}</h1>
+      <ListingForm />
+      <h1>Mes Annonces</h1>
+      {loading ? (
+        <p>Loading...</p>
+      ) : listings.length === 0 ? (
+        <p>Vous n&apos;avez aucune annonce.</p>
+      ) : (
+        <ul>
+          {listings.map(listing => (
+            <li key={listing.id}>{listing.title}</li>
+          ))}
+        </ul>
+      )}
+    </>
+  );
 }

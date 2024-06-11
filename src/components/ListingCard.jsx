@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 
 export default function ListingCard({ listingData, preview = true }) {
@@ -9,8 +10,21 @@ export default function ListingCard({ listingData, preview = true }) {
       <p>{listing.price} €</p>
       {user_email && !preview && (<p>{user_email}</p>)}
       <div>
-        {preview && <Link to={`/listing/${listing.id}`}>Voir l'annonce</Link>}
+       {preview && (<Link to={`/listing/${listing.id}`}>Voir le listing</Link>)}
       </div>
     </div>
-  );
+  )
+}
+
+ListingCard.propTypes = {
+  listingData: PropTypes.shape({
+    user_email: PropTypes.string,
+    listing: PropTypes.shape({    
+      title: PropTypes.string,
+    description: PropTypes.string,
+    price: PropTypes.number,
+    id: PropTypes.number}),
+
+  }).isRequired,
+  preview: PropTypes.bool
 }
