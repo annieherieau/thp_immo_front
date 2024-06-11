@@ -10,7 +10,7 @@ export default function Profile() {
   const { token } = useAtomValue(userAtom);
   const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  console.log(token);
   const requestOptions = useMemo(
     () => buildRequestOptions(null, "my_listings", { token }),
     [token]
@@ -44,7 +44,7 @@ export default function Profile() {
       <h1>Profile {user.email}</h1>
       <ListingForm />
       <h1>Mes Annonces</h1>
-      {loading ? (
+      {/* {loading ? (
         <p>Loading...</p>
       ) : listings.length === 0 ? (
         <p>Vous n&apos;avez aucune annonce.</p>
@@ -63,7 +63,7 @@ export default function Profile() {
             </li>
           ))}
         </ul>
-      )}
+      )} */}
       {listings && listings.length == 0 && (
         <p>Aucune annonce pour cette ville</p>
       )}

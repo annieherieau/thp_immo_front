@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 
 export default function UserInfos({ user }) {
-console.log(user);
   return (
     <div>
       <h2>infos de connexion</h2>
