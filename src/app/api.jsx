@@ -64,12 +64,7 @@ const endpoints = {
   index_per_city: {
     method: 'GET',
     url: api_url + "/cities/{:id}/{ressource}"
-  },
-  index_per_city: {
-    method: 'GET',
-    url: api_url + "/cities/{:id}/{ressource}"
   }
-
 };
 
 // création de la requête: options et url
