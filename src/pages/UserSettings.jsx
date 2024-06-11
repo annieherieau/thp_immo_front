@@ -18,7 +18,7 @@ export default function UserSettings() {
   const [user, setUser] = useState(undefined);
   const [updateUser, setUpdateUser] = useState(false);
   const { url, options } = buildRequestOptions("users", "profile", {
-    token: token,
+    token: token
   });
 
   function handleResponse(response) {
@@ -33,9 +33,8 @@ export default function UserSettings() {
       .then((response) => response.json())
       .then((response) => handleResponse(response))
       .catch((err) => console.error(err));
-  }, [id, setUser]);
-  // useEffect(() => {}, [updateUser]);
-  console.log(user)
+  }, [id, user]);
+
   if (user) {
     return (
       <section>
@@ -52,7 +51,7 @@ export default function UserSettings() {
             </button>
           </>
         )}
-        {updateUser && <UserForm user={user} />}
+        {updateUser && <UserForm user={user} onUpdate={()=> setUpdateUser(false)} />}
       </section>
     );
   } else {
