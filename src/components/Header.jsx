@@ -13,18 +13,20 @@ export default function Header() {
 
   const [city_id, setCity_id] = useAtom(cityAtom);
   const [requestOptions, setRequestOptions ] =useState(buildRequestOptions("listings", "index"))
-  const [listings, setListings] = useAtom(listingsAtom)
+  const [, setListings] = useAtom(listingsAtom)
+  
   // déconnexion
   const handleLogout = () => {
     removeCookie();
     redirectTo();
   };
 
-
-  const handleCity = (e)=>{
+  // selection de la ville
+  const selectCity = (e)=>{
     setCity_id(parseInt(e.target.value))
   }
-  // mis à jour des options de requete
+
+  // options de la requête
   useEffect(()=>{
     const endpoint = city_id ? 'index_per_city' : 'index'
     setRequestOptions(buildRequestOptions('listings', endpoint, {id: city_id}))
@@ -73,7 +75,8 @@ export default function Header() {
             </>
           )}
         </ul>
-        <CityFilter onChange={handleCity}/>
+        {/* filtre des villes */}
+        <CityFilter onChange={selectCity}/>
         {/* toggleMenu */}
         <button className="p-4 lg:hidden" onClick={toggleMenu}>
           <img src={hamburgerIcon} width="20px" />
