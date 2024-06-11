@@ -1,4 +1,6 @@
 import Cookies from "js-cookie";
+import { buildRequestOptions } from "./api";
+import { useState } from "react";
 
 // ****** REDIRECTION ******* //
 export function redirectTo(location = "/") {
@@ -48,4 +50,24 @@ export function checkPasswords(
   } else {
     confirm.setCustomValidity("Passwords do not match");
   }
+}
+
+export function getCityName(city_id) {
+  const [cityName, setCityName] = useState(undefined)
+  const {url, options} = buildRequestOptions("cities", "show", {id: city_id})
+  fetch(url, options)
+      .then((response) => response.json())
+      .then((response) => setCityName(response.name))
+      .catch((err) => console.error(err));
+  return cityName;
+}
+
+export function getUserEmail(user_id) {
+  const [userEmail, setUserEmail] = useState(undefined)
+  const {url, options} = buildRequestOptions(null, "show_email", {id: user_id})
+  fetch(url, options)
+    .then((response) => response.json())
+    .then((response) => setUserEmail(response.email))
+    .catch((err) => console.error(err));
+  return userEmail;
 }

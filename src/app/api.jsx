@@ -31,6 +31,10 @@ const endpoints = {
     method: "PUT",
     url: api_url + "/{ressource}",
   },
+  show_email:{
+    method: "GET",
+    url: api_url + "/email/{:id}",
+  },
   // RESSOURCES
   index: {
     method: 'GET',
