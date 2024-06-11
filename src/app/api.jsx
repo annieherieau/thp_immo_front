@@ -1,5 +1,3 @@
-import { useAtomValue } from "jotai";
-import { userAtom } from "./atoms";
 
 const api_url = import.meta.env.VITE_BACK_API_URL;
 
@@ -59,17 +57,19 @@ const endpoints = {
     method: 'GET',
     url: api_url + "/my_listings"
   },
-  listings: {
-    method: 'POST',
-    url: api_url + "/listings"
+  index_per_city: {
+    method: 'GET',
+    url: api_url + "/cities/{:id}/{ressource}"
+  },
+  index_per_city: {
+    method: 'GET',
+    url: api_url + "/cities/{:id}/{ressource}"
   }
+
 };
 
-const Token  = () => {
-  return useAtomValue(userAtom).token
-}
 // création de la requête: options et url
-export function buildRequestOptions(ressource, endpoint, data = { id: null, body: null, token: Token }) {
+export function buildRequestOptions(ressource, endpoint, data = { id: null, body: null, token: null }) {
   const { id, body, token } = data;
   const { method, url } = endpoints[endpoint];
   let requestUrl = url.replace("{ressource}", ressource);
