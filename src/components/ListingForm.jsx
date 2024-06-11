@@ -1,4 +1,3 @@
-// import { useState } from 'react';
 import { useAtomValue } from "jotai";
 import {  userAtom } from "../app/atoms";
 import { buildRequestOptions } from "../app/api";
@@ -6,7 +5,6 @@ import { getFormData } from '../app/utils';
 
 
 const ListingForm = () => {
-//   const auth = useAtomValue(isAuthAtom);
   const user = useAtomValue(userAtom);
 
   const handleSubmit = async (e) => {

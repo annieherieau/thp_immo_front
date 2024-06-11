@@ -2,7 +2,7 @@ import { useState } from "react";
 import { buildRequestOptions } from "../app/api";
 import { useEffect } from "react";
 
-export default function CityFilter(){
+export default function CityFilter({onChange}) {
   const [cities, setCities] = useState(undefined);
   const { url, options } = buildRequestOptions("cities", "index");
 
@@ -12,9 +12,20 @@ export default function CityFilter(){
       .then((response) => setCities(response))
       .catch((err) => console.error(err));
   }, [setCities]);
+  // console.log(cities);
   return (
-    <section>
-      {cities && listings.map(cityData=> <li key={cityData.city.id} city={city}></li>)}
-    </section>
+    <div>
+      <label htmlFor="cities_list">Selectionnez votre ville : </label>
+      <select name="cities_list" id="cities_list" onChange={onChange}>
+        
+        <option value="0">Toutes</option>
+        {cities &&
+          cities.map((city) => (
+            <option key={city.id} value={city.id} name={city.id} id={city.id}>
+              {city.name}
+            </option>
+          ))}
+      </select>
+    </div>
   );
 }
