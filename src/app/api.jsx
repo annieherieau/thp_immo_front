@@ -13,7 +13,7 @@ const endpoints = {
   },
   profile: {
     method: "GET",
-    url: api_url + "/myprofile",
+    url: api_url + "/my_profile",
   },
   signout: {
     method: "DELETE",
@@ -30,6 +30,10 @@ const endpoints = {
   update_user:{
     method: "PUT",
     url: api_url + "/{ressource}",
+  },
+  show_email:{
+    method: "GET",
+    url: api_url + "/email/{:id}",
   },
   // RESSOURCES
   index: {
@@ -60,12 +64,7 @@ const endpoints = {
   index_per_city: {
     method: 'GET',
     url: api_url + "/cities/{:id}/{ressource}"
-  },
-  index_per_city: {
-    method: 'GET',
-    url: api_url + "/cities/{:id}/{ressource}"
   }
-
 };
 
 // création de la requête: options et url
