@@ -5,7 +5,7 @@ import CitySelection from "./CitySelection";
 import { useState } from "react";
 import { getFormData } from "../app/utils";
 
-const ListingForm = () => {
+const ListingForm = ({onSuccess}) => {
   const user = useAtomValue(userAtom);
   const [error, setError] = useState("");
 
@@ -40,6 +40,8 @@ const ListingForm = () => {
       setError(`Error creating listing:, ${error}`)
       console.error("Error creating listing:", error);
     }
+    onSuccess();
+    e.target.reset()
   };
   
   return (

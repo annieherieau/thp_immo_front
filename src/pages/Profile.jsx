@@ -10,6 +10,7 @@ export default function Profile() {
   const { token } = useAtomValue(userAtom);
   const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [submitForm, setSubmitForm] = useState(false)
   console.log(token);
   const requestOptions = useMemo(
     () => buildRequestOptions(null, "my_listings", { token }),
@@ -37,12 +38,12 @@ export default function Profile() {
     };
 
     fetchAnnonces();
-  }, [requestOptions]);
+  }, [requestOptions, submitForm]);
 
   return (
     <>
       <h1>Profile {user.email}</h1>
-      <ListingForm />
+      <ListingForm onSuccess={() => setSubmitForm(true)}/>
       <h1>Mes Annonces</h1>
       {loading && <p>Loading...</p>}
       {listings.length === 0 && <p>Vous n'avez aucune annonce.</p>}
