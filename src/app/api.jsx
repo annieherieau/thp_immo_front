@@ -1,5 +1,4 @@
-import { useAtomValue } from "jotai";
-import { userAtom } from "./atoms";
+
 
 const api_url = import.meta.env.VITE_BACK_API_URL;
 
@@ -65,11 +64,8 @@ const endpoints = {
   }
 };
 
-const Token  = () => {
-  return useAtomValue(userAtom).token
-}
 // création de la requête: options et url
-export function buildRequestOptions(ressource, endpoint, data = { id: null, body: null, token: Token }) {
+export function buildRequestOptions(ressource, endpoint, data = { id: null, body: null, token: null }) {
   const { id, body, token } = data;
   const { method, url } = endpoints[endpoint];
   let requestUrl = url.replace("{ressource}", ressource);
