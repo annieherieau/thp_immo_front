@@ -44,33 +44,11 @@ export default function Profile() {
       <h1>Profile {user.email}</h1>
       <ListingForm />
       <h1>Mes Annonces</h1>
-      {/* {loading ? (
-        <p>Loading...</p>
-      ) : listings.length === 0 ? (
-        <p>Vous n&apos;avez aucune annonce.</p>
-      ) : (
-        <ul>
-          {listings.map((listing) => (
-            <li key={listing.id}>
-              <h2>{listing.title}</h2>
-              {listing.photo_url && (
-                <img
-                  src={listing.photo_url}
-                  alt={listing.title}
-                  style={{ maxWidth: "200px", height: "auto" }}
-                />
-              )}
-            </li>
-          ))}
-        </ul>
-      )} */}
-      {listings && listings.length == 0 && (
-        <p>Aucune annonce pour cette ville</p>
-      )}
-      {listings &&
-        listings.map((listing) => (
-          <ListingCard key={listing.id} listing={listing} />
-        ))}
+      {loading && <p>Loading...</p>}
+      {listings.length === 0 && <p>Vous n'avez aucune annonce.</p>}
+      {listings.map((listing) => (
+        <ListingCard key={listing.id} listing={listing} />
+      ))}
     </>
   );
 }
