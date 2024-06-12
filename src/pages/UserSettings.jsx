@@ -1,19 +1,24 @@
 import { useAtomValue } from "jotai";
-import { userAtom } from "../app/atoms";
+import { isAuthAtom, userAtom } from "../app/atoms";
 import { useState } from "react";
 import { buildRequestOptions } from "../app/api";
 import { useEffect } from "react";
 import UserInfos from "../components/UserInfos";
 import UserForm from "../components/UserForm";
+import { redirectTo } from "../app/utils";
 
 export default function UserSettings() {
   const { id, token } = useAtomValue(userAtom);
+  const isAuthenticated = useAtomValue(isAuthAtom);
+  if (!isAuthenticated) {
+    redirectTo('/login')
+  }
 
   const [error, setError] = useState(undefined);
   const [user, setUser] = useState(undefined);
   const [updateUser, setUpdateUser] = useState(false);
   const { url, options } = buildRequestOptions("users", "profile", {
-    token: token,
+    token: token
   });
 
   function handleResponse(response) {
@@ -28,8 +33,8 @@ export default function UserSettings() {
       .then((response) => response.json())
       .then((response) => handleResponse(response))
       .catch((err) => console.error(err));
-  }, [id]);
-  // useEffect(() => {}, [updateUser]);
+  }, [id, user, updateUser]);
+
   if (user) {
     return (
       <section>
@@ -46,7 +51,7 @@ export default function UserSettings() {
             </button>
           </>
         )}
-        {updateUser && <UserForm user={user} />}
+        {updateUser && <UserForm user={user} onUpdate={()=> setUpdateUser(false)} />}
       </section>
     );
   } else {

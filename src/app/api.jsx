@@ -14,7 +14,7 @@ const endpoints = {
   },
   profile: {
     method: "GET",
-    url: api_url + "/myprofile",
+    url: api_url + "/my_profile",
   },
   signout: {
     method: "DELETE",
@@ -31,6 +31,10 @@ const endpoints = {
   update_user:{
     method: "PUT",
     url: api_url + "/{ressource}",
+  },
+  show_email:{
+    method: "GET",
+    url: api_url + "/email/{:id}",
   },
   // RESSOURCES
   index: {
@@ -58,32 +62,35 @@ const endpoints = {
     method: 'GET',
     url: api_url + "/my_listings"
   },
-  listings: {
-    method: 'POST',
-    url: api_url + "/listings"
+  index_per_city: {
+    method: 'GET',
+    url: api_url + "/cities/{:id}/{ressource}"
   }
 };
 
 // création de la requête: options et url
-export function buildRequestOptions(ressource, endpoint, data = { id: null, body: null, token: null }) {
-  const { id, body, token } = data;
+export function buildRequestOptions(ressource, endpoint, data = { id: null, body: null, token: null, isFormData: false }) {
+  const { id, body, token, isFormData } = data;
   const { method, url } = endpoints[endpoint];
   let requestUrl = url.replace("{ressource}", ressource);
   requestUrl = id ? requestUrl.replace("{:id}", id) : requestUrl;
 
   const options = {
     method: method,
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: {},
   };
 
-  if (body) {
+  if (isFormData) {
+    options.body = body;
+  } else if (body) {
+    options.headers["Content-Type"] = "application/json";
     options.body = JSON.stringify(body);
   }
+
   if (token) {
     options.headers.Authorization = `Bearer ${token}`;
   }
 
   return { url: requestUrl, options: options };
 }
+

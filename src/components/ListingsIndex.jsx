@@ -1,20 +1,14 @@
-import { useState, useEffect } from "react";
-import { buildRequestOptions } from "../app/api";
 import ListingCard from "./ListingCard";
+import { useAtomValue } from "jotai";
+import { listingsAtom } from "../app/atoms";
 
 export default function ListingsIndex() {
-  const [listings, setListings] = useState(undefined);
-  const { url, options } = buildRequestOptions("listings", "index");
+  const listings = useAtomValue(listingsAtom)
 
-  useEffect(() => {
-    fetch(url, options)
-      .then((response) => response.json())
-      .then((response) => setListings(response))
-      .catch((err) => console.error(err));
-  }, [setListings]);
   return (
     <section>
-      {listings && listings.map(listingData=> <ListingCard key={listingData.listing.id} listingData={listingData}/>)}
+      {listings && listings.length == 0 &&(<p>Aucune annonce pour cette ville</p>)}
+      {listings && listings.map(listing => <ListingCard key={listing.id} listing={listing}/>)}
     </section>
   );
 }

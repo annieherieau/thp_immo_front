@@ -16,11 +16,7 @@ export default function Register() {
     setError("");
 
     // récupérer les données du formulaire
-    let form_data = new FormData(event.target);
-    let userData = {};
-    for (const [key, value] of form_data.entries()) {
-      userData[key] = value;
-    }
+    const userData = getFormData(event.target);
 
     // créer la requête
     const { url, options } = buildRequestOptions("users", "signup", {

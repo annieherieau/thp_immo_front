@@ -1,5 +1,3 @@
-import { useAtomValue } from "jotai";
-import { isAuthAtom } from "../app/atoms";
 import ListingsIndex from "../components/ListingsIndex";
 import Hero from "../components/Hero";
 

@@ -14,10 +14,9 @@ export default function ListingPage(){
       .then((response) => setListing(response))
       .catch((err) => console.error(err));
   }, [id]);
-
   return (
     <section>
-      {listing && <ListingCard listingData={listing} preview={false} />}
+      {listing && <ListingCard listing={listing} preview={false} />}
     </section>
   )
 }
