@@ -144,7 +144,7 @@ export default function ListingPage() {
       value={formData.price}
       required
     />
-    <CitySelection onChange={handleFormChange} value={formData.city}/>
+    <CitySelection onChange={handleFormChange} value={formData.city_id}/>
     <input type="file" id="photo" name="photo" accept="image/*" 
    onChange={handleFormChange} />
 
