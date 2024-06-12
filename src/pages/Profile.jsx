@@ -46,7 +46,7 @@ export default function Profile() {
       <ListingForm onSuccess={() => setSubmitForm(true)}/>
       <h1>Mes Annonces</h1>
       {loading && <p>Loading...</p>}
-      {listings.length === 0 && <p>Vous n'avez aucune annonce.</p>}
+      {listings.length === 0 && <p>Vous n&apos;avez aucune annonce.</p>}
       {listings.map((listing) => (
         <ListingCard key={listing.id} listing={listing} />
       ))}

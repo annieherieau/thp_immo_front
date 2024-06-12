@@ -12,8 +12,6 @@ const ListingForm = ({onSuccess}) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    const userData = getFormData(e.target);
-    console.log(userData);
     const formData = new FormData(e.target);
 
     // Create a new FormData object to nest under "listing"

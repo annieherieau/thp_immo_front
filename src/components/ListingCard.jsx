@@ -26,6 +26,8 @@ export default function ListingCard({ listing, preview = true }) {
 
 ListingCard.propTypes = {
   listing: PropTypes.shape({
+    city_name: PropTypes.string,
+    user_email: PropTypes.string,
     title: PropTypes.string,
     description: PropTypes.string,
     price: PropTypes.number,
