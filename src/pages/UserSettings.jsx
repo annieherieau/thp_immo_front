@@ -33,7 +33,7 @@ export default function UserSettings() {
       .then((response) => response.json())
       .then((response) => handleResponse(response))
       .catch((err) => console.error(err));
-  }, [id, user]);
+  }, [id, user, updateUser]);
 
   if (user) {
     return (

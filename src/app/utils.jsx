@@ -33,7 +33,9 @@ export function removeCookie() {
 export function getFormData(form) {
   const data = {};
   for (const [key, value] of new FormData(form).entries()) {
-    data[key] = value;
+    if (value !== "") {
+      data[key] = value;
+    }
   }
   return data;
 }

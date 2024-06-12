@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { checkPasswords} from "../app/utils";
+import { checkPasswords, getFormData} from "../app/utils";
 import { buildRequestOptions } from "../app/api";
 import { useAtomValue } from "jotai";
 import { userAtom } from "../app/atoms";
@@ -20,14 +20,8 @@ export default function UserForm({ user, onUpdate }) {
     event.preventDefault();
     setError("");
 
-    // récupérer les données du formulaire
-    let form_data = new FormData(event.target);
-    let userData = {};
-    for (const [key, value] of form_data.entries()) {
-      if (value !== "") {
-        userData[key] = value;
-      }
-    }
+    // // récupérer les données du formulaire
+    const userData = getFormData(event.target);
 
     // créer la requête
     const { url, options } = buildRequestOptions("users", "update_user", {
