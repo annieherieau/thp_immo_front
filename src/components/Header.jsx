@@ -3,7 +3,7 @@ import { useAtom, useAtomValue } from "jotai";
 import { cityAtom, isAuthAtom, listingsAtom } from "../app/atoms";
 import { redirectTo, removeCookie } from "../app/utils";
 import hamburgerIcon from "../assets/hamburgerIcon.svg";
-import CityFilter from "./CityFilter";
+import CitySelection from "./CitySelection";
 import { buildRequestOptions } from "../app/api";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -12,9 +12,11 @@ export default function Header() {
   const isLoggedIn = useAtomValue(isAuthAtom);
 
   const [city_id, setCity_id] = useAtom(cityAtom);
-  const [requestOptions, setRequestOptions ] = useState(buildRequestOptions("listings", "index"))
-  const [, setListings] = useAtom(listingsAtom)
-  
+  const [requestOptions, setRequestOptions] = useState(
+    buildRequestOptions("listings", "index")
+  );
+  const [, setListings] = useAtom(listingsAtom);
+
   // déconnexion
   const handleLogout = () => {
     removeCookie();
@@ -22,15 +24,17 @@ export default function Header() {
   };
 
   // selection de la ville
-  const selectCity = (e)=>{
-    setCity_id(parseInt(e.target.value))
-  }
+  const selectCity = (e) => {
+    setCity_id(parseInt(e.target.value));
+  };
 
   // options de la requête
-  useEffect(()=>{
-    const endpoint = city_id ? 'index_per_city' : 'index'
-    setRequestOptions(buildRequestOptions('listings', endpoint, {id: city_id}))
-  }, [city_id])
+  useEffect(() => {
+    const endpoint = city_id ? "index_per_city" : "index";
+    setRequestOptions(
+      buildRequestOptions("listings", endpoint, { id: city_id })
+    );
+  }, [city_id]);
 
   // exécution de la requête
   useEffect(() => {
@@ -76,7 +80,7 @@ export default function Header() {
           )}
         </ul>
         {/* filtre des villes */}
-        <CityFilter onChange={selectCity}/>
+        <CitySelection onChange={selectCity} />
         {/* toggleMenu */}
         <button className="p-4 lg:hidden" onClick={toggleMenu}>
           <img src={hamburgerIcon} width="20px" />

@@ -1,16 +1,20 @@
 import { useAtomValue } from "jotai";
 import { userAtom } from "../app/atoms";
 import { buildRequestOptions } from "../app/api";
+import CitySelection from "./CitySelection";
+import { useState } from "react";
 import { getFormData } from "../app/utils";
 
 const ListingForm = () => {
   const user = useAtomValue(userAtom);
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setError("");
+    const userData = getFormData(e.target);
+    console.log(userData);
     const formData = new FormData(e.target);
-    formData.append("user_id", user.id);
 
     // Create a new FormData object to nest under "listing"
     const nestedFormData = new FormData();
@@ -21,7 +25,7 @@ const ListingForm = () => {
     const { url, options } = buildRequestOptions("listings", "create", {
       body: nestedFormData,
       token: user.token,
-      isFormData: true
+      isFormData: true,
     });
 
     try {
@@ -30,12 +34,14 @@ const ListingForm = () => {
         throw new Error(`Request failed with status ${response.status}`);
       }
       const data = await response.json();
+      alert("Listing created successfully")
       console.log("Listing created:", data);
     } catch (error) {
+      setError(`Error creating listing:, ${error}`)
       console.error("Error creating listing:", error);
     }
   };
-
+  
   return (
     <form onSubmit={handleSubmit} encType="multipart/form-data">
       <input type="text" placeholder="Title" id="title" name="title" required />
@@ -57,15 +63,10 @@ const ListingForm = () => {
         placeholder="Price"
         id="price"
         name="price"
+        min="0"
         required
       />
-      <input
-        type="number"
-        placeholder="City"
-        id="city_id"
-        name="city_id"
-        required
-      />
+      <CitySelection />
       <input type="file" id="photo" name="photo" accept="image/*" />
       <button type="submit">Create Listing</button>
     </form>
