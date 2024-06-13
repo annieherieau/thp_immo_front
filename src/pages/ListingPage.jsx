@@ -26,28 +26,29 @@ export default function ListingPage() {
           price: response.price,
           address: response.address,
           photo_url: response.photo_url,
-          city_id: response.city_id
-
+          city_id: response.city_id,
         });
       })
       .catch((err) => console.error(err));
   }, [id]);
 
-  const handleEdit =  () => {
+  const handleEdit = () => {
     setIsEditing(true); // Afficher le formulaire de modification
   };
 
-
   const handleDelete = async () => {
-    const { url, options } = buildRequestOptions("listings", "delete", { id, token: user.token });
+    const { url, options } = buildRequestOptions("listings", "delete", {
+      id,
+      token: user.token,
+    });
     try {
       const response = await fetch(url, options);
       if (!response.ok) {
         throw new Error(`Delete request failed with status ${response.status}`);
       }
-      navigate('/profile');
+      navigate("/profile");
     } catch (error) {
-      console.error('Error deleting listing:', error);
+      console.error("Error deleting listing:", error);
     }
   };
 
@@ -55,7 +56,7 @@ export default function ListingPage() {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -84,29 +85,29 @@ export default function ListingPage() {
       setListing(updatedListing);
       setIsEditing(false); // Masquer le formulaire de modification après la soumission
     } catch (error) {
-      console.error('Error updating listing:', error);
+      console.error("Error updating listing:", error);
     }
     // const { url, options } = buildRequestOptions("listings", "update", { id, body: formData, token: user.token });
     // try {
-      //   const response = await fetch(url, options);
-      //   if (!response.ok) {
-        //     throw new Error(`Update request failed with status ${response.status}`);
-        //   }
-        //   const updatedListing = await response.json();
-        //   setListing(updatedListing);
-        //setIsEditing(false); // Masquer le formulaire de modification après la soumission
-        // } catch (error) {
-          //   console.error('Error updating listing:', error);
-          // }
-        };
-        // console.log(listing);
+    //   const response = await fetch(url, options);
+    //   if (!response.ok) {
+    //     throw new Error(`Update request failed with status ${response.status}`);
+    //   }
+    //   const updatedListing = await response.json();
+    //   setListing(updatedListing);
+    //setIsEditing(false); // Masquer le formulaire de modification après la soumission
+    // } catch (error) {
+    //   console.error('Error updating listing:', error);
+    // }
+  };
+  // console.log(listing);
 
   const isCurrentUser = user.email === listing?.user_email;
 
   return (
     <section>
       {listing && (
-        <>
+        <div>
           <ListingCard listing={listing} preview={false} />
           {isCurrentUser && (
             <div>
@@ -115,45 +116,62 @@ export default function ListingPage() {
             </div>
           )}
           {isEditing && (
-    <form onSubmit={handleFormSubmit} encType="multipart/form-data">
-    <input type="text" placeholder="Title" id="title" name="title" onChange={handleFormChange} value={formData.title} required />
-    <input
-      type="text"
-      placeholder="Address"
-      id="address"
-      name="address"
-      onChange={handleFormChange}
-      value={formData.address}
-      required
-    />
-    <textarea
-      placeholder="Description"
-      id="description"
-      name="description"
-      onChange={handleFormChange}
-      value={formData.description}
-      required
-    ></textarea>
-    <input
-      type="number"
-      placeholder="Price"
-      id="price"
-      name="price"
-      min="0"
-      onChange={handleFormChange}
-      value={formData.price}
-      required
-    />
-    <CitySelection onChange={handleFormChange} value={formData.city_id}/>
-    <input type="file" id="photo" name="photo" accept="image/*" 
-   onChange={handleFormChange} />
+            <form onSubmit={handleFormSubmit} encType="multipart/form-data">
+              <input
+                type="text"
+                placeholder="Title"
+                id="title"
+                name="title"
+                onChange={handleFormChange}
+                value={formData.title}
+                required
+              />
+              <input
+                type="text"
+                placeholder="Address"
+                id="address"
+                name="address"
+                onChange={handleFormChange}
+                value={formData.address}
+                required
+              />
+              <textarea
+                placeholder="Description"
+                id="description"
+                name="description"
+                onChange={handleFormChange}
+                value={formData.description}
+                required
+              ></textarea>
+              <input
+                type="number"
+                placeholder="Price"
+                id="price"
+                name="price"
+                min="0"
+                onChange={handleFormChange}
+                value={formData.price}
+                required
+              />
+              <CitySelection
+                onChange={handleFormChange}
+                value={formData.city_id}
+              />
+              <input
+                type="file"
+                id="photo"
+                name="photo"
+                accept="image/*"
+                onChange={handleFormChange}
+              />
 
               <button type="submit">Enregistrer les modifications</button>
-              <button type="button" onClick={() => setIsEditing(false)}>Annuler</button>
+              <button type="button" onClick={() => setIsEditing(false)}>
+                Annuler
+              </button>
             </form>
-
           )}
-        </>
+        </div>
       )}
     </section>
   );

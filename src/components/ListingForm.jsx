@@ -128,6 +128,7 @@ const ListingForm = ({ onSuccess }) => {
             label="Furnished"
             id="furnished"
             name="furnished"
+            value={false}
             required
           >
             <MenuItem value={true}>Furnished</MenuItem>

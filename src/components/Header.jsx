@@ -75,17 +75,17 @@ export default function Header() {
               Accueil
             </Button>
             {!isLoggedIn && (
-              <>
+              <div>
                 <Button component={NavLink} to="/login" color="inherit">
                   Connexion
                 </Button>
                 <Button component={NavLink} to="/register" color="inherit">
                   Inscription
                 </Button>
-              </>
+              </div>
             )}
             {isLoggedIn && (
-              <>
+              <div>
                 <Button component={NavLink} to="/profile" color="inherit">
                   Mon profile
                 </Button>
@@ -95,7 +95,7 @@ export default function Header() {
                 <Button onClick={handleLogout} color="inherit">
                   Se déconnecter
                 </Button>
-              </>
+              </div>
             )}
           </Box>
           <CitySelection onChange={selectCity} />
@@ -115,17 +115,17 @@ export default function Header() {
           Accueil
         </MenuItem>
         {!isLoggedIn && (
-          <>
+          <div>
             <MenuItem component={NavLink} to="/login" onClick={handleMenuClose}>
               Connexion
             </MenuItem>
             <MenuItem component={NavLink} to="/register" onClick={handleMenuClose}>
               Inscription
             </MenuItem>
-          </>
+          </div>
         )}
         {isLoggedIn && (
-          <>
+          <div>
             <MenuItem component={NavLink} to="/profile" onClick={handleMenuClose}>
               Mon profile
             </MenuItem>
@@ -133,7 +133,7 @@ export default function Header() {
               Mes informations
             </MenuItem>
             <MenuItem onClick={handleLogout}>Se déconnecter</MenuItem>
-          </>
+          </div>
         )}
       </Menu>
     </AppBar>
