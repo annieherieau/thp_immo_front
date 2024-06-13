@@ -1,5 +1,5 @@
 import { useAtomValue } from "jotai";
-import { userAtom } from "../app/atoms";
+import { cityAtom, userAtom } from "../app/atoms";
 import { buildRequestOptions } from "../app/api";
 import CitySelection from "./CitySelection";
 import { useState } from "react";
@@ -66,7 +66,7 @@ const ListingForm = ({onSuccess}) => {
         min="0"
         required
       />
-      <CitySelection />
+      <CitySelection value={useAtomValue(cityAtom)}/>
       <input type="file" id="photo" name="photo" accept="image/*" />
       <button type="submit">Create Listing</button>
     </form>
