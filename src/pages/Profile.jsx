@@ -41,7 +41,7 @@ export default function Profile() {
   }, [requestOptions, submitForm]);
 
   return (
-    <>
+    <section>
       <h1>Profile {user.email}</h1>
       <ListingForm onSuccess={() => setSubmitForm(true)}/>
       <h1>Mes Annonces</h1>
@@ -50,6 +50,6 @@ export default function Profile() {
       {listings.map((listing) => (
         <ListingCard key={listing.id} listing={listing} />
       ))}
-    </>
+    </section>
   );
 }

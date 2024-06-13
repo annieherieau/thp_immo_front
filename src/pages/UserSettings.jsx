@@ -40,7 +40,7 @@ export default function UserSettings() {
       <section>
         <h1>Mes informations</h1>
         {!updateUser && (
-          <>
+          <div>
             <UserInfos user={user} />
             <button
               onClick={() => {
@@ -49,7 +49,7 @@ export default function UserSettings() {
             >
               Modifier mes informations
             </button>
-          </>
+          </div>
         )}
         {updateUser && <UserForm user={user} onUpdate={()=> setUpdateUser(false)} />}
       </section>
