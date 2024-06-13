@@ -1,5 +1,4 @@
-import { useAtomValue } from "jotai";
-import { isAuthAtom } from "./atoms";
+
 
 const api_url = import.meta.env.VITE_BACK_API_URL;
 
@@ -15,64 +14,83 @@ const endpoints = {
   },
   profile: {
     method: "GET",
-    url: api_url + "/profile",
+    url: api_url + "/my_profile",
   },
   signout: {
     method: "DELETE",
     url: api_url + "/{ressource}/sign_out",
   },
-  reset_password:{
+  reset_password: {
     method: "POST",
     url: api_url + "/{ressource}/password",
   },
-  update_password:{
+  update_password: {
     method: "PUT",
     url: api_url + "/{ressource}/password",
   },
+  update_user:{
+    method: "PUT",
+    url: api_url + "/{ressource}",
+  },
+  show_email:{
+    method: "GET",
+    url: api_url + "/email/{:id}",
+  },
   // RESSOURCES
-  index:{
+  index: {
     method: 'GET',
     url: api_url + "/{ressource}"
   },
-  create:{
+  create: {
     method: 'POST',
     url: api_url + "/{ressource}"
   },
-  show:{
+  show: {
     method: 'GET',
     url: api_url + "/{ressource}/{:id}"
   },
-  update:{
+  update: {
     method: 'PUT',
     url: api_url +  "/{ressource}/{:id}"
   },
-  delete:{
+  delete: {
     method: 'DELETE',
     url: api_url +  "/{ressource}/{:id}"
+  },
+  // CUSTOM ENDPOINTS
+  my_listings: {
+    method: 'GET',
+    url: api_url + "/my_listings"
+  },
+  index_per_city: {
+    method: 'GET',
+    url: api_url + "/cities/{:id}/{ressource}"
   }
- 
-}
+};
 
 // création de la requête: options et url
-export function buildRequestOptions(ressource, endpoint, data= { id: null, body: null, token: useAtomValue(isAuthAtom).token}){
-  const { id, body, token } = data;
+export function buildRequestOptions(ressource, endpoint, data = { id: null, body: null, token: null, isFormData: false }) {
+  const { id, body, token, isFormData } = data;
   const { method, url } = endpoints[endpoint];
   let requestUrl = url.replace("{ressource}", ressource);
   requestUrl = id ? requestUrl.replace("{:id}", id) : requestUrl;
-  
+
   const options = {
     method: method,
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: {},
   };
 
-  if (body) {
+  if (isFormData) {
+    options.body = body;
+  } else if (body) {
+    options.headers["Content-Type"] = "application/json";
     options.body = JSON.stringify(body);
   }
+
   if (token) {
     options.headers.Authorization = `Bearer ${token}`;
   }
 
   return { url: requestUrl, options: options };
 }
+

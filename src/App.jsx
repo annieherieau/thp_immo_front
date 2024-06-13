@@ -9,23 +9,24 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
+import Password from "./pages/Password";
+import ListingPage from "./pages/ListingPage";
+import NotFound from "./pages/NotFound";
 
 // external
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
-import {loadCookie } from "./app/utils";
+import { loadCookie } from "./app/utils";
 import { noUser, userAtom } from "./app/atoms";
-import NotFound from "./pages/NotFound";
 import PrivateRoute from "./components/PrivateRoute";
-import Password from "./pages/Password";
-import ListingPage from "./pages/ListingPage";
+import UserSettings from "./pages/UserSettings";
 
 export default function App() {
   const [, setUser] = useAtom(userAtom);
 
   useEffect(() => {
-      setUser(loadCookie() ? loadCookie() : noUser);  
+    setUser(loadCookie() ? loadCookie() : noUser);
   }, [setUser]);
   return (
     <BrowserRouter basename={basename}>
@@ -37,6 +38,7 @@ export default function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/password/:action" element={<Password />} />
           <Route path="/listing/:id" element={<ListingPage />} />
+          <Route path="/user_settings" element={<UserSettings />} />
           <Route
             path="/profile"
             element={
@@ -45,7 +47,7 @@ export default function App() {
               </PrivateRoute>
             }
           />
-          <Route path='*' element={<NotFound />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
       <Footer />

@@ -2,7 +2,7 @@ import { useAtomValue } from "jotai";
 import { isAuthAtom } from "../app/atoms";
 import { useState } from "react";
 import { buildRequestOptions } from "../app/api";
-import { checkPasswords, createCookie, redirectTo } from "../app/utils";
+import { checkPasswords, createCookie, getFormData, redirectTo } from "../app/utils";
 import { Navigate } from "react-router-dom";
 
 export default function Register() {
@@ -11,28 +11,12 @@ export default function Register() {
   if (isLoggedIn) {
     return <Navigate to="/profile" />;
   }
-
-  // TODO: validation des mot de passe avant envoi serveur
-  // function checkPasswords() {
-  //   const password = document.querySelector("input[name=password]");
-  //   const confirm = document.querySelector("input[name=password_confirmation]");
-  //   if (confirm.value === password.value) {
-  //     confirm.setCustomValidity("");
-  //   } else {
-  //     confirm.setCustomValidity("Passwords do not match");
-  //   }
-  // }
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError("");
 
     // récupérer les données du formulaire
-    let form_data = new FormData(event.target);
-    let userData = {};
-    for (const [key, value] of form_data.entries()) {
-      userData[key] = value;
-    }
+    const userData = getFormData(event.target);
 
     // créer la requête
     const { url, options } = buildRequestOptions("users", "signup", {
@@ -42,18 +26,20 @@ export default function Register() {
     // Executer la requête
     try {
       const response = await fetch(url, options);
+      
       if (response) {
-        const { data, status } = await response.json();
-        if (status.code == 200) {
+       
+        const responseData = await response.json();
+        if (response.status == 201) {
           const cookieData = {
-            token: data.token,
-            email: data.user.email,
-            id: data.user.id,
+            token: response.headers.get('authorization').split(' ')[1],
+            email: responseData.email,
+            id: responseData.id,
           };
           createCookie(cookieData, userData.remember_me);
           redirectTo("/profile");
         } else {
-          setError(`Erreur ${status.code.status}: ${status.message}`);
+          setError(`Erreur ${response.status}: ${JSON.stringify(responseData.errors)}`);
         }
       }
     } catch (error) {

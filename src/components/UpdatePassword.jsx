@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { buildRequestOptions } from "../app/api";
-import { checkPasswords, redirectTo } from "../app/utils";
+import { checkPasswords, getFormData, redirectTo } from "../app/utils";
 import { useSearchParams } from "react-router-dom";
 
 export default function UpdatePassword() {
@@ -13,12 +13,8 @@ export default function UpdatePassword() {
     setError("");
 
     // récupérer les données du formulaire
-    let form_data = new FormData(event.target);
-    let userData = {};
-    for (const [key, value] of form_data.entries()) {
-      userData[key] = value;
-    }
-
+    const userData = getFormData(event.target);
+ 
     // créer la requête
     const { url, options } = buildRequestOptions("users", "update_password", {
       body: { password: userData.password }, token: token

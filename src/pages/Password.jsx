@@ -12,9 +12,9 @@ export default function Password() {
   }
   const {action} = useParams()
   return(
-    <>
+    <div>
     {action =='reset' && (<ResetPassword />)}
     {action =='edit' && (<UpdatePassword />)}
-    </>
+    </div>
   )
 }

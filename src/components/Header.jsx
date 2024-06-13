@@ -1,53 +1,141 @@
 import { NavLink } from "react-router-dom";
-import { useAtomValue } from "jotai";
-import { isAuthAtom } from "../app/atoms";
+import { useAtom, useAtomValue } from "jotai";
+import { cityAtom, isAuthAtom, listingsAtom } from "../app/atoms";
 import { redirectTo, removeCookie } from "../app/utils";
-import hamburgerIcon from '../assets/hamburgerIcon.svg'
+import hamburgerIcon from "../assets/hamburgerIcon.svg";
+import CitySelection from "./CitySelection";
+import { buildRequestOptions } from "../app/api";
+import { useState, useEffect } from "react";
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Menu,
+  MenuItem,
+  Box,
+  Button,
+  Container,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+
 export default function Header() {
   const isLoggedIn = useAtomValue(isAuthAtom);
+  const [city_id, setCity_id] = useAtom(cityAtom);
+  const [requestOptions, setRequestOptions] = useState(
+    buildRequestOptions("listings", "index")
+  );
+  const [, setListings] = useAtom(listingsAtom);
+  const [anchorEl, setAnchorEl] = useState(null);
+
   // déconnexion
   const handleLogout = () => {
     removeCookie();
     redirectTo();
   };
 
-  const toggleMenu = (event) => {
-    alert('Displaytoggle');
+  // selection de la ville
+  const selectCity = (e) => {
+    setCity_id(parseInt(e.target.value));
+  };
+
+  // options de la requête
+  useEffect(() => {
+    const endpoint = city_id ? "index_per_city" : "index";
+    setRequestOptions(
+      buildRequestOptions("listings", endpoint, { id: city_id })
+    );
+  }, [city_id]);
+
+  // exécution de la requête
+  useEffect(() => {
+    fetch(requestOptions.url, requestOptions.options)
+      .then((response) => response.json())
+      .then((response) => setListings(response))
+      .catch((err) => console.error(err));
+  }, [requestOptions]);
+
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
   };
 
   return (
-    <header>
-      <nav>
-      <ul>
-        <li>
-          <NavLink to="/">Accueil</NavLink>
-        </li>
+    <AppBar position="static">
+      <Container maxWidth="lg">
+        <Toolbar>
+          <Typography variant="h6" sx={{ flexGrow: 1 }}>
+            La Marketplace de l&apos;immo
+          </Typography>
+          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            <Button component={NavLink} to="/" color="inherit">
+              Accueil
+            </Button>
+            {!isLoggedIn && (
+              <div>
+                <Button component={NavLink} to="/login" color="inherit">
+                  Connexion
+                </Button>
+                <Button component={NavLink} to="/register" color="inherit">
+                  Inscription
+                </Button>
+              </div>
+            )}
+            {isLoggedIn && (
+              <div>
+                <Button component={NavLink} to="/profile" color="inherit">
+                  Mon profile
+                </Button>
+                <Button component={NavLink} to="/user_settings" color="inherit">
+                  Mes informations
+                </Button>
+                <Button onClick={handleLogout} color="inherit">
+                  Se déconnecter
+                </Button>
+              </div>
+            )}
+          </Box>
+          <CitySelection onChange={selectCity} />
+          <Box sx={{ display: { xs: "flex", md: "none" } }}>
+            <IconButton edge="start" color="inherit" onClick={handleMenuOpen}>
+              <MenuIcon />
+            </IconButton>
+          </Box>
+        </Toolbar>
+      </Container>
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleMenuClose}
+      >
+        <MenuItem component={NavLink} to="/" onClick={handleMenuClose}>
+          Accueil
+        </MenuItem>
         {!isLoggedIn && (
-          <>
-            <li>
-              <NavLink to="/login">Connexion</NavLink>
-            </li>
-            <li>
-              <NavLink to="/register">Inscription</NavLink>
-            </li>
-          </>
+          <div>
+            <MenuItem component={NavLink} to="/login" onClick={handleMenuClose}>
+              Connexion
+            </MenuItem>
+            <MenuItem component={NavLink} to="/register" onClick={handleMenuClose}>
+              Inscription
+            </MenuItem>
+          </div>
         )}
         {isLoggedIn && (
-          <>
-            <li>
-              <NavLink to="/profile">Mon profile</NavLink>
-            </li>
-            <li>
-              <button onClick={handleLogout}>Se déconnecter</button>
-            </li>
-          </>
+          <div>
+            <MenuItem component={NavLink} to="/profile" onClick={handleMenuClose}>
+              Mon profile
+            </MenuItem>
+            <MenuItem component={NavLink} to="/user_settings" onClick={handleMenuClose}>
+              Mes informations
+            </MenuItem>
+            <MenuItem onClick={handleLogout}>Se déconnecter</MenuItem>
+          </div>
         )}
-      </ul>
-      {/* toggleMenu */}
-      <button className="p-4 lg:hidden" onClick={toggleMenu}>
-          <img src={hamburgerIcon} width="20px"/>
-        </button>
-        </nav>
-    </header>
+      </Menu>
+    </AppBar>
   );
 }

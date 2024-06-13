@@ -1,14 +1,22 @@
-import { useAtomValue } from "jotai";
-import { isAuthAtom } from "../app/atoms";
 import ListingsIndex from "../components/ListingsIndex";
+import Hero from "../components/Hero";
+import { Container, Typography, Box } from '@mui/material';
 
 export default function Home() {
-  const isLoggedIn = useAtomValue(isAuthAtom);
   return (
-    <section>
-      {!isLoggedIn && <h1>Home (puclic)</h1>}
-      {isLoggedIn && <h1>Bienvenue (private)</h1>}
-      <ListingsIndex/>
-    </section>
+    <Container maxWidth="lg">
+      <Box textAlign="center" my={4}>
+        <Typography variant="h2" component="h1" gutterBottom>
+          La Marketplace de l&apos;immo
+        </Typography>
+      </Box>
+      <Hero />
+      <Box textAlign="center" my={4}>
+        <Typography variant="h4" component="h2" gutterBottom>
+          Liste des biens immobiliers
+        </Typography>
+      </Box>
+      <ListingsIndex />
+    </Container>
   );
 }
