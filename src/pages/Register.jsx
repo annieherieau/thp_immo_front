@@ -2,7 +2,7 @@ import { useAtomValue } from "jotai";
 import { isAuthAtom } from "../app/atoms";
 import { useState } from "react";
 import { buildRequestOptions } from "../app/api";
-import { checkPasswords, createCookie, redirectTo } from "../app/utils";
+import { checkPasswords, createCookie, redirectTo, getFormData } from "../app/utils";
 import { Navigate } from "react-router-dom";
 
 export default function Register() {
